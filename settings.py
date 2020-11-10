@@ -8,11 +8,15 @@ class Settings():
 		self.screen_width=1300
 		#Parametry niewidzialnego tła; obliczanie szerokości i wysokości
 		#komórek, z kórych będzie składało się niewidzialne tło
-		self.width_grid_number=140
-		self.height_grid_number=70
+		self.width_grid_number=200
+		self.height_grid_number=100
 		#Proporjce są minimalnie zawiększone, żeby (przy ustawianiu
 		#położenia) zaokrąglenia wartości nie skutkowały pustymi
 		#odstępami między komórkami
 		self.width_grid=self.screen_width/self.width_grid_number
 		self.height_grid=self.screen_height/self.height_grid_number
+		#Ustalenie koloru ramki
+		self.frame_color=(100,100,100)
+		#Domyślny kolor rysowania
+		self.default_drawing_color=(0,0,0)
 		
