@@ -19,4 +19,10 @@ class Settings():
 		self.frame_color=(100,100,100)
 		#Domyślny kolor rysowania
 		self.default_drawing_color=(0,0,0)
+		#Proporjce odległości w jakiej będa się znajdowały linie 
+		#tworzące pomocniczą siatkę
+		self.reference_grid_size=5
+		#Dodanie zmiennej, blokujacej stałe włącanie i wyłączanie siatki
+		#przy przytrzymanym przycisku
+		self.enable_changing_grid=True
 		
