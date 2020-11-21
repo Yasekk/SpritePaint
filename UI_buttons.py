@@ -1,6 +1,34 @@
 import pygame
 from pygame.sprite import Sprite
 import pygame.font
+from pygame.sprite import Group
+class ButtonsGroup():
+	"""Klasa w której są przechwowywane wszystkie podstawowe
+	przyciski"""
+	def __init__(self,screen,settings):
+		#Tworzenie grupy przycisków
+		self.buttons=Group()
+		self.create_buttons(screen,settings)
+	def create_buttons(self,screen,settings):
+		#Tworzenie przycisków i dodawanie ich do grupy
+		self.black_button=BlackButton(screen,settings)
+		self.buttons.add(self.black_button)
+		self.blue_button=BlueButton(screen,settings)
+		self.buttons.add(self.blue_button)
+		self.red_button=RedButton(screen,settings)
+		self.buttons.add(self.red_button)
+		self.green_button=GreenButton(screen,settings)
+		self.buttons.add(self.green_button)
+		self.yellow_button=YellowButton(screen,settings)
+		self.buttons.add(self.yellow_button)
+		self.cyan_button=CyanButton(screen,settings)
+		self.buttons.add(self.cyan_button)
+		self.magenta_button=MagentaButton(screen,settings)
+		self.buttons.add(self.magenta_button)
+		self.gray_button=GrayButton(screen,settings)
+		self.buttons.add(self.gray_button)
+		self.brown_button=BrownButton(screen,settings)
+		self.buttons.add(self.brown_button)
 class ColorIndicator(Sprite):
 	"""Przycisk, który będzie zmieniał kolor rysowania na czarny"""
 	def __init__(self,screen,settings):
@@ -12,7 +40,7 @@ class ColorIndicator(Sprite):
 		self.rect.top=self.screen_rect.bottom-settings.height_grid*15
 		self.rect.left=settings.width_grid
 		self.color=settings.default_drawing_color
-	def draw_indicator(self):
+	def draw_button(self):
 		"""Wyświetlenie przycisku"""
 		pygame.draw.rect(self.screen,self.color,self.rect)
 class EraserButton(Sprite):
@@ -37,7 +65,7 @@ class EraserButton(Sprite):
 		self.button_color)
 		self.msg_image_rect=self.msg_image.get_rect()
 		self.msg_image_rect.center=self.rect.center
-	def draw_eraser(self):
+	def draw_button(self):
 		"""Wyświetlenie przycisku oraz napisu na nim"""
 		self.screen.fill(self.button_color,self.rect)
 		self.screen.blit(self.msg_image,self.msg_image_rect)
@@ -66,6 +94,31 @@ class ReferenceGridButton(Sprite):
 		self.msg_image_rect.center=self.rect.center
 	def draw_button(self):
 		#Wyświetlanie pustego przycisku a następnie komunikatu an nim
+		self.screen.fill(self.button_color,self.rect)
+		self.screen.blit(self.msg_image,self.msg_image_rect)
+class ClearButton(Sprite):
+	"""Przycisk, który będzie usuwał cały rysunek"""
+	def __init__(self,screen,settings):
+		super().__init__()
+		self.screen=screen
+		self.screen_rect=screen.get_rect()
+		self.text_color=(255,255,255)
+		self.font=pygame.font.SysFont(None,20)
+		self.rect=pygame.Rect(0,0,settings.width_grid*9,
+		settings.height_grid*3)
+		self.rect.top=self.screen_rect.bottom-settings.height_grid*4
+		self.rect.right=settings.screen_width-settings.width_grid*5
+		self.button_color=(0,0,0)
+		self.prep_msg("Czyść")
+	def prep_msg(self,msg):
+		"""Umieszczenie komunikatu w wygenerowanym obrazie i 
+		wyśrodkowanie tekstu na przycisku"""
+		self.msg_image=self.font.render(msg,True,self.text_color,
+		self.button_color)
+		self.msg_image_rect=self.msg_image.get_rect()
+		self.msg_image_rect.center=self.rect.center
+	def draw_button(self):
+		"""Wyświetlenie przycisku oraz napisu na nim"""
 		self.screen.fill(self.button_color,self.rect)
 		self.screen.blit(self.msg_image,self.msg_image_rect)
 class BlackButton(Sprite):
