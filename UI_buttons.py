@@ -29,8 +29,10 @@ class ButtonsGroup():
 		self.buttons.add(self.gray_button)
 		self.brown_button=BrownButton(screen,settings)
 		self.buttons.add(self.brown_button)
+		self.white_button=WhiteButton(screen,settings)
+		self.buttons.add(self.white_button)
 class ColorIndicator(Sprite):
-	"""Przycisk, który będzie zmieniał kolor rysowania na czarny"""
+	"""Ikona, która pokazuje aktualnie uzywany kolor"""
 	def __init__(self,screen,settings):
 		super().__init__()
 		self.screen=screen
@@ -43,8 +45,108 @@ class ColorIndicator(Sprite):
 	def draw_button(self):
 		"""Wyświetlenie przycisku"""
 		pygame.draw.rect(self.screen,self.color,self.rect)
+class RectangleButton(Sprite):
+	"""Przycisk, który będzie włączał opcję rysowania prostokąta"""
+	def __init__(self,screen,settings):
+		super().__init__()
+		self.screen=screen
+		self.screen_rect=screen.get_rect()
+		self.text_color=(0,0,0)
+		self.font=pygame.font.SysFont(None,20)
+		self.rect=pygame.Rect(0,0,settings.width_grid*9,
+		settings.height_grid*3)
+		self.rect.top=self.screen_rect.bottom-settings.height_grid*10
+		self.rect.right=settings.screen_width-settings.width_grid*15
+		self.button_color=(255,255,255)
+		self.prep_msg("Figura")
+	def prep_msg(self,msg):
+		"""Umieszczenie komunikatu w wygenerowanym obrazie i 
+		wyśrodkowanie tekstu na przycisku"""
+		self.msg_image=self.font.render(msg,True,self.text_color,
+		self.button_color)
+		self.msg_image_rect=self.msg_image.get_rect()
+		self.msg_image_rect.center=self.rect.center
+	def draw_button(self):
+		"""Wyświetlenie przycisku oraz napisu na nim"""
+		self.screen.fill(self.button_color,self.rect)
+		self.screen.blit(self.msg_image,self.msg_image_rect)
+class DrawingButton(Sprite):
+	"""Przycisk, który będzie włączał opcję rysowania"""
+	def __init__(self,screen,settings):
+		super().__init__()
+		self.screen=screen
+		self.screen_rect=screen.get_rect()
+		self.text_color=(255,255,255)
+		self.font=pygame.font.SysFont(None,20)
+		self.rect=pygame.Rect(0,0,settings.width_grid*9,
+		settings.height_grid*3)
+		self.rect.top=self.screen_rect.bottom-settings.height_grid*10
+		self.rect.right=settings.screen_width-settings.width_grid*25
+		self.button_color=(0,0,0)
+		self.prep_msg("Rysunek")
+	def prep_msg(self,msg):
+		"""Umieszczenie komunikatu w wygenerowanym obrazie i 
+		wyśrodkowanie tekstu na przycisku"""
+		self.msg_image=self.font.render(msg,True,self.text_color,
+		self.button_color)
+		self.msg_image_rect=self.msg_image.get_rect()
+		self.msg_image_rect.center=self.rect.center
+	def draw_button(self):
+		"""Wyświetlenie przycisku oraz napisu na nim"""
+		self.screen.fill(self.button_color,self.rect)
+		self.screen.blit(self.msg_image,self.msg_image_rect)
+class SaveButton(Sprite):
+	"""Przycisk, który będzie zapisywał obraz do pliku"""
+	def __init__(self,screen,settings):
+		super().__init__()
+		self.screen=screen
+		self.screen_rect=screen.get_rect()
+		self.text_color=(255,255,255)
+		self.font=pygame.font.SysFont(None,20)
+		self.rect=pygame.Rect(0,0,settings.width_grid*9,
+		settings.height_grid*3)
+		self.rect.top=self.screen_rect.bottom-settings.height_grid*7
+		self.rect.right=settings.screen_width-settings.width_grid*15
+		self.button_color=(0,0,0)
+		self.prep_msg("Zapisz")
+	def prep_msg(self,msg):
+		"""Umieszczenie komunikatu w wygenerowanym obrazie i 
+		wyśrodkowanie tekstu na przycisku"""
+		self.msg_image=self.font.render(msg,True,self.text_color,
+		self.button_color)
+		self.msg_image_rect=self.msg_image.get_rect()
+		self.msg_image_rect.center=self.rect.center
+	def draw_button(self):
+		"""Wyświetlenie przycisku oraz napisu na nim"""
+		self.screen.fill(self.button_color,self.rect)
+		self.screen.blit(self.msg_image,self.msg_image_rect)
+class LoadButton(Sprite):
+	"""Przycisk, który będzie zapisywał obraz do pliku"""
+	def __init__(self,screen,settings):
+		super().__init__()
+		self.screen=screen
+		self.screen_rect=screen.get_rect()
+		self.text_color=(0,0,0)
+		self.font=pygame.font.SysFont(None,20)
+		self.rect=pygame.Rect(0,0,settings.width_grid*9,
+		settings.height_grid*3)
+		self.rect.top=self.screen_rect.bottom-settings.height_grid*4
+		self.rect.right=settings.screen_width-settings.width_grid*15
+		self.button_color=(255,255,255)
+		self.prep_msg("Wczytaj")
+	def prep_msg(self,msg):
+		"""Umieszczenie komunikatu w wygenerowanym obrazie i 
+		wyśrodkowanie tekstu na przycisku"""
+		self.msg_image=self.font.render(msg,True,self.text_color,
+		self.button_color)
+		self.msg_image_rect=self.msg_image.get_rect()
+		self.msg_image_rect.center=self.rect.center
+	def draw_button(self):
+		"""Wyświetlenie przycisku oraz napisu na nim"""
+		self.screen.fill(self.button_color,self.rect)
+		self.screen.blit(self.msg_image,self.msg_image_rect)
 class EraserButton(Sprite):
-	"""Przycisk, który będzie zmieniał kolor rysowania na czarny"""
+	"""Przycisk, który będzie właczał tryb zmazywania obrazu"""
 	def __init__(self,screen,settings):
 		super().__init__()
 		self.screen=screen
@@ -57,7 +159,6 @@ class EraserButton(Sprite):
 		self.rect.right=settings.screen_width-settings.width_grid*5
 		self.button_color=(255,255,255)
 		self.prep_msg("Gumka")
-		self.turn_on=False
 	def prep_msg(self,msg):
 		"""Umieszczenie komunikatu w wygenerowanym obrazie i 
 		wyśrodkowanie tekstu na przycisku"""
@@ -178,7 +279,7 @@ class GreenButton(Sprite):
 		"""Wyświetlenie przycisku"""
 		pygame.draw.rect(self.screen,self.color,self.rect)
 class YellowButton(Sprite):
-	"""Przycisk, który będzie zmieniał kolor rysowania na zielony"""
+	"""Przycisk, który będzie zmieniał kolor rysowania na żółty"""
 	def __init__(self,screen,settings):
 		super().__init__()
 		self.screen=screen
@@ -192,7 +293,7 @@ class YellowButton(Sprite):
 		"""Wyświetlenie przycisku"""
 		pygame.draw.rect(self.screen,self.color,self.rect)
 class CyanButton(Sprite):
-	"""Przycisk, który będzie zmieniał kolor rysowania na zielony"""
+	"""Przycisk, który będzie zmieniał kolor rysowania na cyjan"""
 	def __init__(self,screen,settings):
 		super().__init__()
 		self.screen=screen
@@ -206,7 +307,7 @@ class CyanButton(Sprite):
 		"""Wyświetlenie przycisku"""
 		pygame.draw.rect(self.screen,self.color,self.rect)
 class MagentaButton(Sprite):
-	"""Przycisk, który będzie zmieniał kolor rysowania na zielony"""
+	"""Przycisk, który będzie zmieniał kolor rysowania na magenta"""
 	def __init__(self,screen,settings):
 		super().__init__()
 		self.screen=screen
@@ -220,7 +321,7 @@ class MagentaButton(Sprite):
 		"""Wyświetlenie przycisku"""
 		pygame.draw.rect(self.screen,self.color,self.rect)
 class GrayButton(Sprite):
-	"""Przycisk, który będzie zmieniał kolor rysowania na zielony"""
+	"""Przycisk, który będzie zmieniał kolor rysowania na szary"""
 	def __init__(self,screen,settings):
 		super().__init__()
 		self.screen=screen
@@ -234,7 +335,7 @@ class GrayButton(Sprite):
 		"""Wyświetlenie przycisku"""
 		pygame.draw.rect(self.screen,self.color,self.rect)
 class BrownButton(Sprite):
-	"""Przycisk, który będzie zmieniał kolor rysowania na zielony"""
+	"""Przycisk, który będzie zmieniał kolor rysowania na brązowy"""
 	def __init__(self,screen,settings):
 		super().__init__()
 		self.screen=screen
@@ -244,6 +345,20 @@ class BrownButton(Sprite):
 		self.rect.top=self.screen_rect.bottom-settings.height_grid*9
 		self.rect.left=settings.width_grid*45
 		self.color=(165,42,42)	
+	def draw_button(self):
+		"""Wyświetlenie przycisku"""
+		pygame.draw.rect(self.screen,self.color,self.rect)
+class WhiteButton(Sprite):
+	"""Przycisk, który będzie zmieniał kolor rysowania na biały"""
+	def __init__(self,screen,settings):
+		super().__init__()
+		self.screen=screen
+		self.screen_rect=screen.get_rect()
+		self.rect=pygame.Rect(0,0,settings.width_grid*4,
+		settings.width_grid*4)
+		self.rect.top=self.screen_rect.bottom-settings.height_grid*9
+		self.rect.left=settings.width_grid*50
+		self.color=(255,255,255)	
 	def draw_button(self):
 		"""Wyświetlenie przycisku"""
 		pygame.draw.rect(self.screen,self.color,self.rect)

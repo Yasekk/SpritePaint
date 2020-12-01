@@ -4,8 +4,10 @@ from settings import Settings
 import functions as fct
 from pygame.sprite import Group
 from UI_buttons import (ColorIndicator,EraserButton,ReferenceGridButton,
-ClearButton,ButtonsGroup)
+ClearButton,ButtonsGroup,SaveButton,LoadButton,RectangleButton,
+DrawingButton)
 from tools import VerticalReferenceGrid,HorizontalReferenceGrid,Pointer
+from drawing import DrawingElement
 def run_program():
 	#Inicjalizacja programu i wczytywanie początkowych wartości
 	pygame.init()
@@ -21,7 +23,8 @@ def run_program():
 	#Tworzenie ramki
 	frame=Group()
 	fct.create_frame(screen,settings,frame)
-	#Tworzenie pomocniczej siatki
+	#Tworzenie siatki, którą będzie mozna włączać w celu ułatwienia 
+	#rysowania
 	reference_grid=Group()
 	for collumn_number in range(int(
 	settings.width_grid_number/settings.reference_grid_size)):
@@ -55,10 +58,25 @@ def run_program():
 	#Dodanie przycisku, który pozwoli na usunięcie całego rysunku
 	clear_button=ClearButton(screen,settings)
 	UI_buttons_group.add(clear_button)
+	#Dodanie przycisku, który pozwoli na zapisywanie obrazu
+	save_button=SaveButton(screen,settings)
+	UI_buttons_group.add(save_button)
+	#Dodanie przycisku, który pozwoli na wczytywanie obrazu
+	load_button=LoadButton(screen,settings)
+	UI_buttons_group.add(load_button)
+	#Dodanie przycisku, który pozwoli na rysowanie prostokątów
+	rectangle_button=RectangleButton(screen,settings)
+	UI_buttons_group.add(rectangle_button)
+	#Dodanie przycisku, który pozwoli na zwykłe rysowanie
+	drawing_button=DrawingButton(screen,settings)
+	UI_buttons_group.add(drawing_button)
 	#Dodanie niewidzialnego kwadratu, który bedzie odpowiadał położeniu
 	#kursora i będzie tworzył rysunki w miejscu kliknięcia
 	pointer=Pointer(screen,settings)
+	#Dodanie grupy w której będą tymczasowe figury
+	rectangles=Group()
 	while True:
+		#Ustalenie lub odświeżenie pozycji kursora
 		mouse_x,mouse_y = pygame.mouse.get_pos()
 		pointer.rect.centerx=mouse_x
 		pointer.rect.centery=mouse_y
@@ -67,18 +85,27 @@ def run_program():
 			if event.type == pygame.QUIT:
 				sys.exit()
 			elif event.type == pygame.MOUSEBUTTONDOWN:
+				#Włączenie trybu klikniętej myszy
 				mouse_down=True
 			elif event.type == pygame.MOUSEBUTTONUP:
+				#Wyłączenie trybu klikniętej myszy
 				mouse_down=False
 				#Zmiana wartości zmiennej, dzięki czemu po odkliknięciu
-				#myszy bdzie można ponownie wcisnąć przycisk dopiero 
-				#przy nasetpnym kliknięciu
+				#myszy bdzie można ponownie wcisnąć przycisk siatki 
+				#pomocniczej dopiero przy nasetpnym kliknięciu
 				settings.enable_changing_grid=True
+				#Jeżeli aktualnie tworzona jest figura, aktualnie 
+				#ustalony kształt zostanie dodany do rysunku
+				if len(rectangles)>=0:
+					fct.drawing_rectangle(background_grid,rectangles,
+					drawing,screen,settings)						
 		if mouse_down==True:
 			#Reakcja na kliknięcie i przytrzymanie myszy
 			fct.mouse_click(screen,settings,background_grid,drawing,
 			buttons_group,frame,color_indicator,eraser_button,
-			reference_grid_button,pointer,clear_button)		
+			reference_grid_button,pointer,clear_button,save_button,
+			load_button,rectangle_button,rectangles,drawing_button)		
 		fct.update_screen(screen,drawing,frame,buttons_group,
-		UI_buttons_group,reference_grid,reference_grid_button)
+		UI_buttons_group,reference_grid,reference_grid_button,
+		rectangles)
 run_program()

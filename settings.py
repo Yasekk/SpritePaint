@@ -25,4 +25,6 @@ class Settings():
 		#Dodanie zmiennej, blokujacej stałe włącanie i wyłączanie siatki
 		#przy przytrzymanym przycisku
 		self.enable_changing_grid=True
+		#Zmienna wskazująca, który przysick jest aktualnie aktywny
+		self.active_button="draw"
 		
